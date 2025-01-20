@@ -20,22 +20,26 @@ def main():
 def get_user_expense():
     print(f"Getting User Expense!")
     
-    # Get a valid expense name (letters, numbers, and spaces allowed)
+    # Get a valid expense name (only letters allowed)
     while True:
         expense_name = input("Enter expense name: ")
-        if re.match("^[A-Za-z0-9 ]+$", expense_name):  # Allow letters, numbers, and spaces
+        if re.match("^[A-Za-z ]+$", expense_name):  # Only letters and spaces allowed
             break
         else:
-            print("Invalid input. Please enter a valid expense name using only letters, numbers, or spaces.")
+            print("Invalid input. Please enter a valid expense name using only letters and spaces.")
 
-    # Get a valid expense amount (positive number only)
+    # Get a valid expense amount (only numbers allowed)
     while True:
         try:
-            expense_amount = float(input("Enter expense amount: "))
-            if expense_amount > 0:
-                break
+            expense_amount = input("Enter expense amount: ")
+            if expense_amount.replace(".", "", 1).isdigit() and expense_amount.count('.') <= 1:  # Only numbers and one decimal point allowed
+                expense_amount = float(expense_amount)
+                if expense_amount > 0:
+                    break
+                else:
+                    print("Amount should be a positive number. Please try again.")
             else:
-                print("Amount should be a positive number. Please try again.")
+                print("Invalid amount. Please enter a valid numeric value.")
         except ValueError:
             print("Invalid amount. Please enter a valid numeric value.")
 
@@ -140,3 +144,4 @@ class Expense:
 
 if __name__ == "__main__":
     main()
+
